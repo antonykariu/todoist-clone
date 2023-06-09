@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main>
       <h2>Hello from Homepage</h2>
-      <Link href="/inbox">Inbox</Link>
+      <Link href="/today">Today</Link>
     </main>
   );
 }
