@@ -1,7 +1,8 @@
-"use server"
-import prisma from "../../prisma/client";
+"use server";
+import prisma from "../../../../prisma/client";
 
-export default async function createTask(task: TaskObj) {
+export async function addTask(task: TaskObj) {
+  "use server";
   const response = await prisma.task.create({
     data: task,
   });

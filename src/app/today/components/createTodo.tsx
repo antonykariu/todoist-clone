@@ -1,8 +1,9 @@
 "use client";
-import createTask from "@/lib/createTask";
-import React, { useReducer } from "react";
+import React, { useReducer, useState, useTransition } from "react";
+import { addTask } from "./addTask";
+import { useRouter } from "next/navigation";
 
-export default function CreateTask() {
+export default function CreateTodo() {
   const initial = {
     title: "",
     description: "",
@@ -17,18 +18,29 @@ export default function CreateTask() {
     }),
     initial
   );
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [isFetching, setIsFetching] = useState(false);
+
+  const isMutating = isFetching || isPending;
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
+    setIsFetching(true);
 
-    createTask(state)
+    await addTask(state)
       .then((task) => {
         console.log(task);
         dispatch(initial);
       })
       .catch((error) => console.log(error));
+    setIsFetching(false);
+
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   return (
@@ -45,7 +57,7 @@ export default function CreateTask() {
                 e.currentTarget.style.height =
                   Math.min(e.currentTarget.scrollHeight, 150) + "px";
               }}
-              className="w-full bg-primary-100 focus:outline-none text-sm resize-none font-semibold"
+              className="w-full bg-primary-100 border-none focus:ring-0 text-sm resize-none font-semibold"
               onChange={(e) => dispatch({ title: e.target.value })}
               value={state.title}
               placeholder="Task name"
@@ -57,7 +69,7 @@ export default function CreateTask() {
                 e.currentTarget.style.height =
                   Math.min(e.currentTarget.scrollHeight, 150) + "px";
               }}
-              className="w-full bg-primary-100 focus:outline-none text-xs resize-none"
+              className="w-full bg-primary-100 border-none focus:ring-0 text-xs resize-none"
               onChange={(e) => dispatch({ description: e.target.value })}
               value={state.description}
               placeholder="Description"
