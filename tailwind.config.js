@@ -23,12 +23,15 @@ module.exports = {
       spacing: {
         sm: "10px",
         "sm-2": "12px",
+        "sm-3": "6px",
+        "sm-4": "8px",
         md: "16px",
         lg: "24px",
         xl: "32px",
         "2xl": "40px",
         "3xl": "48px",
         "4xl": "800px",
+        modal: "250px",
       },
       fontSize: {
         xs: "13px",
@@ -59,7 +62,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
+  plugins: [require("@tailwindcss/forms")],
 };

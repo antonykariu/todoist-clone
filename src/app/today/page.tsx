@@ -4,7 +4,7 @@ import CreateTodo from "./components/createTodo";
 import Todo from "./components/todo";
 
 export default async function Today() {
-  const todos = await getTodos();
+  // const todos = await getTodos();
 
   return (
     <div className="flex flex-wrap">
@@ -12,11 +12,11 @@ export default async function Today() {
         <h1 className="font-200 text-xl">Today</h1>
       </nav>
       <Suspense fallback={<div>Loading...</div>}>
-        <ul className="w-4xl">
+        {/* <ul className="w-4xl">
           {todos.filter(todo => !todo.completed).map((todo) => (
             <Todo {...todo} key={todo.id} />
           ))}
-        </ul>
+        </ul> */}
       </Suspense>
 
       <CreateTodo />

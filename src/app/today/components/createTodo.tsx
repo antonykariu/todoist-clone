@@ -2,6 +2,7 @@
 import React, { useReducer, useState, useTransition } from "react";
 import { addTask } from "./addTask";
 import { useRouter } from "next/navigation";
+import DueDate from "./dueDate";
 
 export default function CreateTodo() {
   const initial = {
@@ -21,6 +22,7 @@ export default function CreateTodo() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
+  const [popper, setPopper] = useState(false);
 
   const isMutating = isFetching || isPending;
 
@@ -57,7 +59,7 @@ export default function CreateTodo() {
                 e.currentTarget.style.height =
                   Math.min(e.currentTarget.scrollHeight, 150) + "px";
               }}
-              className="w-full bg-primary-100 border-none focus:ring-0 text-sm resize-none font-semibold"
+              className="w-full bg-primary-100 border-none focus:ring-0 text-sm resize-none font-semibold p-0"
               onChange={(e) => dispatch({ title: e.target.value })}
               value={state.title}
               placeholder="Task name"
@@ -69,7 +71,7 @@ export default function CreateTodo() {
                 e.currentTarget.style.height =
                   Math.min(e.currentTarget.scrollHeight, 150) + "px";
               }}
-              className="w-full bg-primary-100 border-none focus:ring-0 text-xs resize-none"
+              className="w-full bg-primary-100 border-none focus:ring-0 text-xs resize-none p-0"
               onChange={(e) => dispatch({ description: e.target.value })}
               value={state.description}
               placeholder="Description"
@@ -77,17 +79,9 @@ export default function CreateTodo() {
             ></textarea>
           </div>
           <div className="mb-sm w-full">
-            <select
-              className="bg-primary-100 border border-divider-100 rounded-md px-2 py-1 text-xs"
-              name="priority"
-              onChange={(e) => dispatch({ priority: e.target.value })}
-            >
-              <option>Select</option>
-              <option value="1">🏳</option>
-              <option value="2">Medium</option>
-              <option value="3">High</option>
-              <option value="4">High</option>
-            </select>
+            <button type="button" onClick={() => {setPopper(true)}}>
+            <DueDate popper={popper} setPopper={ setPopper} />
+            </button>
           </div>
           <div className="mb-sm w-full flex flex-1 justify-end">
             <button
