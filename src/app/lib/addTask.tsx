@@ -1,8 +1,9 @@
 "use server";
-import prisma from "../../../../prisma/client";
+import { PrismaClient } from "@prisma/client";
+
+const prisma  = new PrismaClient()
 
 export async function addTask(task: TaskObj) {
-  "use server";
   const response = await prisma.task.create({
     data: task,
   });
