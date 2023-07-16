@@ -23,15 +23,18 @@ module.exports = {
       spacing: {
         sm: "10px",
         "sm-2": "12px",
+        "sm-3": "6px",
+        "sm-4": "8px",
         md: "16px",
         lg: "24px",
         xl: "32px",
         "2xl": "40px",
         "3xl": "48px",
         "4xl": "800px",
+        modal: "250px",
       },
       fontSize: {
-        xs: "13px",
+        xs: "12px",
         sm: "14px",
         tiny: ".875rem",
         base: "1rem",
@@ -45,9 +48,14 @@ module.exports = {
         "7xl": "5rem",
       },
       colors: {
+        content: {
+          100: "#eee",
+          200: "#ffffff66",
+        },
         primary: {
-          100: "#282828",
-          200: "#292929",
+          100: "#1f1f1f",
+          200: "#282828",
+          300: "#292929",
         },
         disabled: {
           100: "#dc4c3e",
@@ -56,10 +64,14 @@ module.exports = {
           100: "#3d3d3d",
           200: "#999",
         },
+        secondary: {
+          100: "#ff7066",
+          200: "#ff7066",
+          300: "#dc4c3e",
+          400: "#dc4c3e",
+        },
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
+  plugins: [require("@tailwindcss/forms")],
 };

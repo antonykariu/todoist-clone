@@ -1,7 +1,10 @@
 "use server";
-import prisma from "../../../../prisma/client";
 
-export default async function markCompleted(id: string) {
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default async function markCompleted(id: number) {
   const response = await prisma.task.update({
     where: {
       id,

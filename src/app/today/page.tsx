@@ -1,25 +1,21 @@
-import React, { Suspense } from "react";
-import getTodos from "./components/getTodos";
-import CreateTodo from "./components/createTodo";
-import Todo from "./components/todo";
+import { Suspense } from "react";
+import TodayView from "../components/todayView";
 
 export default async function Today() {
-  const todos = await getTodos();
+  const today = new Date(Date.now()).toDateString().slice(0, 10);
 
   return (
-    <div className="flex flex-wrap">
-      <nav className="flex w-full py-3 px-4">
-        <h1 className="font-200 text-xl">Today</h1>
-      </nav>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ul className="w-4xl">
-          {todos.filter(todo => !todo.completed).map((todo) => (
-            <Todo {...todo} key={todo.id} />
-          ))}
-        </ul>
-      </Suspense>
-
-      <CreateTodo />
+    <div className="flex flex-wrap px-[55px] justify-center">
+      <header className="flex pt-[36px] pb-2 w-[800px]">
+        <h1 className="font-bold text-xl">
+          Today <span className="text-xs text-divider-200 font-normal">{today}</span>
+        </h1>
+      </header>
+      <main className="w-[800px]">
+        <Suspense fallback={<div>Loading...</div>}>
+          <TodayView />
+        </Suspense>
+      </main>
     </div>
   );
 }
