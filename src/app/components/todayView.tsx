@@ -1,9 +1,9 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import getTodos from "../../tasks/getTodos";
+import getTodos from "../lib/getTodos";
 import WowSuchEmpty from "./wowSuchEmpty";
-import TaskList from "../../tasks/taskList";
+import Todo from "./todo";
 
 export default async function TodayView() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -20,7 +20,7 @@ export default async function TodayView() {
   if (tasks.length > 1)
     return (
       <div>
-        <TaskList tasks={tasks} />
+            <Todo tasks={tasks}/>
       </div>
     );
   else return <>Loading something...</>;
