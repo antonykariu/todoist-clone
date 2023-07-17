@@ -1,7 +1,7 @@
 "use client";
 import React, { useReducer, useState, useTransition } from "react";
 
-import { addTask } from "./addTask";
+import { addTask } from "../lib/addTask";
 import { useRouter } from "next/navigation";
 import DueDate from "./dueDate";
 
