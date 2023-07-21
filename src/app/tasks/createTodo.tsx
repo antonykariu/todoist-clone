@@ -1,7 +1,7 @@
 "use client";
 import React, { useReducer, useState, useTransition } from "react";
 
-import { addTask } from "./addTask";
+import { addTask } from "./lib/addTask";
 import { useRouter } from "next/navigation";
 import DueDate from "./dueDate";
 
@@ -10,15 +10,17 @@ export default function CreateTodo({
 }: {
   setAddTask: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const d = new Date();
   const initial = {
     title: "",
     description: "",
+    dueDate: d,
     priority: "p4",
     completed: false,
   };
 
   const [state, dispatch] = useReducer(
-    (state: TaskObj, action: Partial<TaskObj>) => ({
+    (state: Partial<UiTask>, action: Partial<UiTask>) => ({
       ...state,
       ...action,
     }),
@@ -40,6 +42,7 @@ export default function CreateTodo({
       .then((task) => {
         console.log(task);
         dispatch(initial);
+        setAddTask(false);
       })
       .catch((error) => console.log(error));
     setIsFetching(false);

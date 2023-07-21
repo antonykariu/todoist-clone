@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma  = new PrismaClient()
 
-export async function addTask(task: TaskObj) {
+export async function addTask(task: UpdateTask) {
   const response = await prisma.task.create({
     data: task,
   });
