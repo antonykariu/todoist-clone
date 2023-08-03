@@ -6,11 +6,7 @@ import { useRouter } from "next/navigation";
 import CreateTodo from "./createTodo";
 import EditTask from "./editTask";
 
-export default function TaskList({
-  tasks,
-}: {
-  tasks: Task[];
-}) {
+export default function TaskList({ tasks }: { tasks: Task[] }) {
   const initial = {
     title: "",
     description: "",
@@ -41,6 +37,10 @@ export default function TaskList({
     });
   }
 
+  const today = new Date();
+
+  console.log(tasks);
+
   return (
     <ul>
       {tasks
@@ -49,25 +49,38 @@ export default function TaskList({
           <li
             key={task.id}
             style={{ opacity: !isMutating ? 1 : 0.7 }}
-            className="text-sm text-divider-200 hover:cursor-pointer border-b-[1px] border-divider-100"
-            // onClick={() => handleComplete(task.id)}
-            onClick={() => {
-              setSelected(task as UiTask);
-              setEditTask(true);
-            }}
+            className="flex  items-center mb-2 text-sm text-divider-200 border-b-[1px] border-divider-100"
           >
-            {task.title}
+            <input
+              type="radio"
+              name="complete"
+              id="complete"
+              className="mr-2 bg-primary-200 hover:cursor-pointer"
+              onClick={() => handleComplete(task.id)}
+            />
+            <p
+              className="w-full py-1 hover:cursor-pointer"
+              onClick={() => {
+                setSelected(task as UiTask);
+                setEditTask(true);
+              }}
+            >
+              {task.title}
+            </p>
           </li>
         ))}
       <h3 className="">Completed</h3>
       {tasks
-        .filter((task) => task.completed)
+        .filter(
+          (task) =>
+            task.completed &&
+            today.toDateString() === task.updatedAt.toDateString()
+        )
         .map((task) => (
           <li
             key={task.id}
             style={{ opacity: !isMutating ? 1 : 0.7 }}
-            className="text-sm text-divider-200 hover:cursor-pointer border-b-[1px] border-divider-100 line-through decoration-divider-200"
-            // onClick={() => handleComplete(task.id)}
+            className="text-sm text-divider-200 hover:cursor-pointer border-b-[1px] border-divider-100 line-through decoration-divider-200 py-2"
           >
             {task.title}
           </li>
