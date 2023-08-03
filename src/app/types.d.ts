@@ -8,12 +8,9 @@ type Task = {
   createdAt: Date;
   updatedAt: Date;
 };
-type TaskObj = {
-  title: string;
-  description?: string;
-  priority?: string;
-  completed: boolean;
-  dueDate?: Date;
-};
 
+type UiTask = Omit<Task, "description | priority"> & {
+  description: string | number | readonly string[] | undefined;
+  priority: string | number | readonly string[] | undefined;
+}
 

@@ -6,7 +6,6 @@ import type { Dayjs } from 'dayjs';
 
 export default function DueDate() {
   const [open, setOpen] = useState(false);
-  const { token } = theme.useToken();
 
   const handleOpen = () => {
     setOpen(true);

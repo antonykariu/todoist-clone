@@ -1,11 +1,11 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import getTodos from "../../tasks/getTodos";
+import getTodos from "../../tasks/lib/getTodos";
 import WowSuchEmpty from "./wowSuchEmpty";
 import TaskList from "../../tasks/taskList";
 
-export default async function TodayView() {
+export default function TodayView() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {

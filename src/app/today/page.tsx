@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import TodayView from "./components/todayView";
 
-export default async function Today() {
+export default function Today() {
   const today = new Date(Date.now()).toDateString().slice(0, 10);
 
   return (
