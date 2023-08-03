@@ -5,7 +5,7 @@ import markCompleted from "./lib/markComplete";
 import { useRouter } from "next/navigation";
 import CreateTodo from "./createTodo";
 import EditTask from "./editTask";
-// { tasks: Task[]; fetchTasks: () => Promise<void>; }
+
 export default function TaskList({
   tasks,
 }: {

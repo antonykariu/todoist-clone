@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useReducer, useState } from "react";
-import DueDate from "./dueDate";
 import updateTask from "./lib/updateTask";
-import { useRouter } from "next/navigation";
-import getTodos from "./lib/getTodos";
+import Select from "react-select";
 
 type UiTask = Omit<Task, "description | priority"> & {
   description: string | number | readonly string[] | undefined;
@@ -27,7 +25,6 @@ export default function EditTask({
   );
 
   const [editTaskLocal, setEditTaskLocal] = useState(false);
-  const router = useRouter();
 
   function handleUpdateTask() {
     updateTask(state)
@@ -38,20 +35,21 @@ export default function EditTask({
       });
   }
 
-  const priorities = ["P1", "P2", "P3", "P4"];
+  const options = [
+    { value: "P1", label: "P1" },
+    { value: "P2", label: "P2" },
+    { value: "P3", label: "P3" },
+    { value: "P4", label: "Priority" },
+  ];
 
-  function handleUpdatedPriority(event: React.ChangeEvent<HTMLSelectElement>) {
-    dispatch({ priority: event.target.value });
-    updateTask(state)
-      .then((result) => console.log(result))
-      .then(() => {
-        dispatch({ ...task });
-      });
-  }
-
+  console.log(state.priority);
   return (
-    <div className="absolute w-full left-0 bg-primary-400  h-full top-0 p-[32px] flex flex-wrap justify-center">
-      <div className="border border-divider-100 rounded-lg  h-full max-w-[867px] bg-primary-100 flex">
+    <>
+      <div
+        className="absolute w-full left-0 bg-primary-400  h-full top-0 p-[32px] flex flex-wrap justify-center"
+        onClick={() => setEditTask(false)}
+      ></div>
+      <div className="absolute top-11 border border-divider-100 rounded-lg max-w-[867px] bg-primary-100 flex">
         <div className="min-w-[472px] pb-0 p-[16px]">
           <div
             className={
@@ -78,7 +76,7 @@ export default function EditTask({
                   Math.min(e.currentTarget.scrollHeight, 150) + "px";
               }}
               className="w-full bg-primary-100 border-none focus:ring-0 text-[13px] resize-none p-0 placeholder:text-content-200"
-              onChange={(e) => handleUpdatedPriority}
+              onChange={(e) => dispatch({ description: e.target.value })}
               onClick={() => setEditTaskLocal(true)}
               value={state.description === "" ? "" : state.description}
               placeholder="Description"
@@ -112,20 +110,17 @@ export default function EditTask({
           )}
         </div>
         <div className="pb-0 p-[16px] flex flex-wrap min-w-[260px] bg-primary-200">
-          <select
+          <Select
             className="border-t-0 border-x-0 border-divider-100 disabled:cursor-no-drop w-full bg-none bg-primary-200 p-0 px-2  text-[13px] h-[28px] text-content-200"
-            onChange={(e) => dispatch({ priority: e.target.value })}
-            disabled={editTaskLocal ? true : false}
-          >
-            {priorities.map((val) => (
-              <option key={val} defaultValue={state.priority}>
-                {" "}
-                {val === "P4" ? "Privority" : val}
-              </option>
-            ))}
-          </select>
+            onChange={(OnChangeValue) =>
+              dispatch({ priority: OnChangeValue?.value })
+            }
+            options={options}
+            isDisabled={editTaskLocal ? true : false}
+            defaultValue={{value: state.priority}}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 }
