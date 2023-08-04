@@ -4,11 +4,16 @@ import React, { useReducer, useState, useTransition } from "react";
 import { addTask } from "./lib/addTask";
 import { useRouter } from "next/navigation";
 import DueDate from "./dueDate";
+import { addSubTask } from "./lib/addSubTask";
 
 export default function CreateTodo({
   setAddTask,
+  isSubTask,
+  taskId,
 }: {
   setAddTask: React.Dispatch<React.SetStateAction<boolean>>;
+  isSubTask: boolean;
+  taskId: number;
 }) {
   const d = new Date();
   const initial = {
@@ -38,13 +43,29 @@ export default function CreateTodo({
     event.preventDefault();
     setIsFetching(true);
 
-    await addTask(state)
-      .then((task) => {
-        console.log(task);
-        dispatch(initial);
-        setAddTask(false);
-      })
-      .catch((error) => console.log(error));
+    if (isSubTask) {
+      console.log(true);
+      console.log(state);
+      const task = state as UiTask
+      
+      await addSubTask({ task , taskId })
+        .then((task) => {
+          console.log(task);
+          dispatch(initial);
+          setAddTask(false);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      console.log(false);
+      await addTask(state as UiTask)
+        .then((task) => {
+          console.log(task);
+          dispatch(initial);
+          setAddTask(false);
+        })
+        .catch((error) => console.log(error));
+    }
+
     setIsFetching(false);
 
     startTransition(() => {
@@ -52,8 +73,10 @@ export default function CreateTodo({
     });
   };
 
+  const value = isSubTask ? "container w-[440px] flex" : "container w-full flex" 
+
   return (
-    <div className="container w-full flex">
+    <div className={value}>
       <form
         onSubmit={handleSubmit}
         className="w-full border border-divider-100 rounded-xl"
