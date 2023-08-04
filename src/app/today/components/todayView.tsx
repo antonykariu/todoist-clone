@@ -20,7 +20,7 @@ export default function TodayView() {
   if (tasks.length > 1)
     return (
       <div>
-        <TaskList tasks={tasks} />
+        <TaskList tasks={tasks} isSubTask={false}/>
       </div>
     );
   else return <>Loading something...</>;

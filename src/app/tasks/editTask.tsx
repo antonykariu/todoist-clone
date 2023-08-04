@@ -3,8 +3,11 @@
 import React, { useReducer, useState } from "react";
 import updateTask from "./lib/updateTask";
 import Select from "react-select";
+import CreateTodo from "./createTodo";
+import TaskList from "./taskList";
 
 type UiTask = Omit<Task, "description | priority"> & {
+  subTasks?: Task[];
   description: string | number | readonly string[] | undefined;
   priority: string | number | readonly string[] | undefined;
 };
@@ -25,6 +28,7 @@ export default function EditTask({
   );
 
   const [editTaskLocal, setEditTaskLocal] = useState(false);
+  const [subTask, setSubTask] = useState(false);
 
   function handleUpdateTask() {
     updateTask(state)
@@ -42,7 +46,8 @@ export default function EditTask({
     { value: "P4", label: "Priority" },
   ];
 
-  console.log(state.priority);
+  console.log(state);
+
   return (
     <>
       <div
@@ -75,7 +80,7 @@ export default function EditTask({
                 e.currentTarget.style.height =
                   Math.min(e.currentTarget.scrollHeight, 150) + "px";
               }}
-              className="w-full bg-primary-100 border-none focus:ring-0 text-[13px] resize-none p-0 placeholder:text-content-200"
+              className="w-full bg-primary-100 border-none focus:ring-0 text-[13px] text-divider-200 resize-none p-0 placeholder:text-content-200"
               onChange={(e) => dispatch({ description: e.target.value })}
               onClick={() => setEditTaskLocal(true)}
               value={state.description === "" ? "" : state.description}
@@ -108,6 +113,24 @@ export default function EditTask({
               </button>
             </div>
           )}
+          <div className="border-b border-divider-100 my-3 ">
+            <TaskList tasks={state.subTasks} isSubTask={true} />
+            <button
+              type="submit"
+              className="text-[12px] font-semibold text-divider-200 mb-3  hover:bg-primary-200 p-1 rounded px-2"
+              onClick={() => setSubTask(true)}
+              style={subTask ? { display: "none" } : { display: "block" }}
+            >
+              Add sub-task
+            </button>
+            {subTask && (
+              <CreateTodo
+                setAddTask={setSubTask}
+                isSubTask={true}
+                taskId={state.id as number}
+              />
+            )}
+          </div>
         </div>
         <div className="pb-0 p-[16px] flex flex-wrap min-w-[260px] bg-primary-200">
           <Select
@@ -117,7 +140,7 @@ export default function EditTask({
             }
             options={options}
             isDisabled={editTaskLocal ? true : false}
-            defaultValue={{value: state.priority}}
+            defaultValue={{ value: state.priority }}
           />
         </div>
       </div>

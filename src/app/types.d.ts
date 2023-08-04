@@ -9,8 +9,8 @@ type Task = {
   updatedAt: Date;
 };
 
-type UiTask = Omit<Task, "description | priority"> & {
+type UiTask = Omit<Task, "description | priority | id"> & {
+  id?: number | undefined;
   description: string | number | readonly string[] | undefined;
   priority: string | number | readonly string[] | undefined;
-}
-
+};
